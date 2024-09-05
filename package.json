@@ -1,0 +1,49 @@
+{
+  "name": "react-custom-clock",
+  "version": "1.0.0",
+  "description": "A highly customizable React component for creating clocks with a wide range of styles and options.",
+  "main": "dists/index.js",
+  "types": "dists/index.d.ts",
+  "keywords": [
+    "react",
+    "clock",
+    "customizable-clock",
+    "react-clock",
+    "analog-clock",
+    "react-component",
+    "time",
+    "clock-hands",
+    "react-timer",
+    "custom-clock",
+    "responsive-clock",
+    "UI-component",
+    "time-display",
+    "typescript",
+    "css-clock",
+    "no-dependencies",
+    "react-custom-clock"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/satyam-mishra-pce/react-custom-clock.git"
+  },
+  "author": "Satyam Mishra",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/satyam-mishra-pce/react-custom-clock/issues"
+  },
+  "homepage": "https://github.com/satyam-mishra-pce/react-custom-clock#readme",
+  "devDependencies": {
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}

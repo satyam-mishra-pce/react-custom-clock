@@ -1,0 +1,117 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Unbounded:wght@200..900&display=swap");
+
+.--custom-analog-clock-react {
+  height: var(--clock-size);
+  width: var(--clock-size);
+  background: var(--clock-background);
+  border-radius: var(--clock-size);
+
+  overflow: hidden;
+  position: relative;
+}
+
+.--custom-analog-clock-react .perimeter-placer {
+  position: absolute;
+  top: calc(50% - (var(--tick-height) / 2));
+  left: calc(50% - (var(--tick-width) / 2));
+  transform: translateX(
+      calc(sin(var(--degree)) * var(--center-to-tick-hypotenuse))
+    )
+    translateY(calc(-1 * cos(var(--degree)) * var(--center-to-tick-hypotenuse)));
+}
+
+.--custom-analog-clock-react .tick {
+  height: var(--tick-height);
+  width: var(--tick-width);
+  border-radius: var(--radius);
+  background: var(--background);
+
+  transform: rotateZ(var(--degree));
+}
+
+.--custom-analog-clock-react .tick-count {
+  font-family: "Unbounded", sans-serif;
+  color: var(--color);
+  font-weight: 600;
+  background: var(--background);
+  display: inline-block;
+  text-align: center;
+  width: calc(var(--size) * 2);
+  font-size: var(--size);
+  line-height: calc(var(--size) * 2);
+
+  border-radius: var(--size);
+
+  --mean-pos-diff: calc(var(--tick-height) / 2 + var(--gap) + var(--size));
+  --x-tick-adjustment: calc((var(--mean-pos-diff) * sin(var(--degree))));
+  --x-self-adjustment: calc((var(--tick-width) / 2) - var(--size));
+  --x-total-adjustment: calc(
+    var(--x-self-adjustment) - var(--x-tick-adjustment)
+  );
+  --y-tick-adjustment: calc(
+    (var(--mean-pos-diff) * cos(var(--degree))) - var(--mean-pos-diff)
+  );
+  --y-total-adjustment: calc(var(--y-tick-adjustment) + var(--gap));
+
+  transform: translateX(var(--x-total-adjustment))
+    translateY(var(--y-total-adjustment));
+}
+
+.--custom-analog-clock-react .interface {
+  height: var(--clock-size);
+  width: var(--clock-size);
+  border-radius: 99999999px;
+
+  position: relative;
+}
+
+.--custom-analog-clock-react .pivot {
+  height: var(--pivot-height);
+  width: var(--pivot-height);
+  background: var(--pivot-background);
+  border-radius: 999999999px;
+
+  position: absolute;
+  top: calc(50% - (var(--pivot-height) / 2));
+  left: calc(50% - (var(--pivot-height) / 2));
+}
+
+.--custom-analog-clock-react .clock-hand {
+  transform-origin: var(--hand-origin);
+  transform: rotateZ(var(--hand-rotate));
+  transition: var(--transition);
+  position: absolute;
+  top: calc(50% + var(--hand-back-height) - var(--hand-height));
+  left: calc(50% - (var(--hand-width) / 2));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.--custom-analog-clock-react .front-base {
+  height: var(--hand-height);
+  width: var(--hand-width);
+  border-radius: var(--hand-radius);
+  background: var(--hand-background);
+  transition: var(--hand-transition) ease-out;
+  position: relative;
+}
+
+.--custom-analog-clock-react .front {
+  position: absolute;
+  height: var(--hand-height);
+  width: var(--hand-width);
+  border-radius: var(--hand-radius);
+  background: var(--hand-background);
+  transform: translateY(var(--hand-translate));
+  transform-origin: bottom center;
+  transition: var(--hand-transition) ease-out;
+}
+
+.--custom-analog-clock-react .back {
+  height: var(--hand-height);
+  width: var(--hand-width);
+  border-radius: var(--hand-radius);
+  background: var(--hand-background);
+  transition: var(--hand-transition) ease-out;
+}
