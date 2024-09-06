@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useMemo, useState } from "react";
 import "./clock.css";
 import { defaultFill } from "./utils";
