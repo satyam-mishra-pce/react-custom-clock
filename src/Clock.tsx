@@ -271,7 +271,9 @@ type InterfaceOptions = Ancestorize<
      * Options to configure the clock's pivot point (optional).
      */
     pivot?: PivotOptions;
-  } & Partial<Record<ClockHandName, ClockHandOptions>>
+  } & {
+    [key in ClockHandName]?: ClockHandOptions;
+  }
 >;
 
 /**
@@ -295,7 +297,7 @@ export type ClockOptions = {
   interface?: InterfaceOptions;
 };
 
-type StrictClockOptions = Strictify<ClockOptions>;
+export type StrictClockOptions = Strictify<ClockOptions>;
 
 const OPTIONS: StrictClockOptions = {
   size: 400,
