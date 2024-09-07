@@ -468,6 +468,7 @@ const Count = ({
   level: CountLevel;
 }) => {
   const countByLevel = counts[level];
+  if (!countByLevel.show) return null;
 
   return (
     <span
@@ -517,7 +518,8 @@ const PerimeterPlacer = ({
   }
 
   const mapper = new Array(totalTicks).fill(0);
-  const showRegularTicks = tickByLevelIndex[0].show;
+  const showTicks = ticks.show;
+  const showRegularTicks = showTicks && tickByLevelIndex[0].show;
 
   return (
     <>
@@ -537,12 +539,12 @@ const PerimeterPlacer = ({
                 "--center-to-tick-hypotenuse": `${cth}px`,
                 "--degree": `${deg}deg`,
                 "--tick-height": `${
-                  tickByLevelIndex[levelIndex].show
+                  showTicks && tickByLevelIndex[levelIndex].show
                     ? tickByLevelIndex[levelIndex].height
                     : 0
                 }px`,
                 "--tick-width": `${
-                  tickByLevelIndex[levelIndex].show
+                  showTicks && tickByLevelIndex[levelIndex].show
                     ? tickByLevelIndex[levelIndex].width
                     : 0
                 }px`,
@@ -696,6 +698,7 @@ const ClockInterface = ({
   return (
     <div className="interface">
       {(Object.keys(degRotations) as TimeUnit[]).map((handName) => {
+        if (!clockInterface[`${handName}Hand`].show) return null;
         return (
           <ClockHand
             clockHand={clockInterface[`${handName}Hand`]}
