@@ -272,6 +272,9 @@ type InterfaceOptions = Ancestorize<
      */
     pivot?: PivotOptions;
   } & {
+    /**
+     * Options to configure this particular hand in the clock.
+     */
     [key in ClockHandName]?: ClockHandOptions;
   }
 >;
