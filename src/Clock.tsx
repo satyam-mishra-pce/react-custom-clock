@@ -580,11 +580,11 @@ const ClockHand = ({
   transition: number;
 } & React.HTMLAttributes<HTMLDivElement>) => {
   const handSubParts: HandSubPart[] = useMemo(
-    () => ["back", "frontBase", "front"],
+    () => ["frontBase", "back", "front"],
     []
   );
   const handSubPartClassNames: string[] = useMemo(
-    () => ["back", "front-base", "front"],
+    () => ["front-base", "back", "front"],
     []
   );
 
@@ -726,6 +726,7 @@ const Clock = ({
   options,
   time,
   children,
+  ...props
 }: {
   /**
    * The options object that define the appearance of the clock, and its parts.
@@ -739,7 +740,7 @@ const Clock = ({
    * Anything that you want to be rendered on the clock face, behind the ticks and clock hands.
    */
   children?: React.ReactNode;
-}) => {
+} & React.HTMLAttributes<HTMLDivElement>) => {
   const normalizedOptions = defaultFill(
     OPTIONS,
     options ?? {}
@@ -771,23 +772,27 @@ const Clock = ({
 
   return (
     <div
-      className="--custom-analog-clock-react"
+      {...props}
+      className={`--custom-analog-clock-react ${props.className}`}
       style={
         {
           "--clock-size": `${size}px`,
           "--clock-background": background,
+          ...(props.style ?? {}),
         } as React.CSSProperties
       }
     >
       {children ? children : null}
-      {ticksOptions.show && (
+      {normalizedOptions.face.show && (
         <PerimeterPlacer
           ticks={ticksOptions}
           apparentClockRadius={apparentClockRadius}
           counts={countsOptions}
         />
       )}
-      <ClockInterface clockInterface={interfaceOptions} time={date} />
+      {interfaceOptions.show && (
+        <ClockInterface clockInterface={interfaceOptions} time={date} />
+      )}
     </div>
   );
 };

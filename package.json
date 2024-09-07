@@ -1,6 +1,6 @@
 {
   "name": "react-custom-clock",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A highly customizable React component for creating clocks with a wide range of styles and options.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
