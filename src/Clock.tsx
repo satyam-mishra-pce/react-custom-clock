@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { forwardRef, useEffect, useMemo, useState } from "react";
 import "./clock.css";
 import { defaultFill } from "./utils";
 
@@ -725,12 +725,7 @@ const ClockInterface = ({
   );
 };
 
-const Clock = ({
-  options,
-  time,
-  children,
-  ...props
-}: {
+type ClockProps = {
   /**
    * The options object that define the appearance of the clock, and its parts.
    */
@@ -743,61 +738,69 @@ const Clock = ({
    * Anything that you want to be rendered on the clock face, behind the ticks and clock hands.
    */
   children?: React.ReactNode;
-} & React.HTMLAttributes<HTMLDivElement>) => {
-  const normalizedOptions = defaultFill(
-    OPTIONS,
-    options ?? {}
-  ) as BooleanifyAncestor<StrictClockOptions>;
+} & React.HTMLAttributes<HTMLDivElement>;
 
-  const {
-    size,
-    face: { ticks: ticksOptions, counts: countsOptions, padding, background },
-    interface: interfaceOptions,
-  } = normalizedOptions;
+const Clock = forwardRef<HTMLDivElement, ClockProps>(
+  ({ options, time, children, ...props }, ref) => {
+    const normalizedOptions = defaultFill(
+      OPTIONS,
+      options ?? {}
+    ) as BooleanifyAncestor<StrictClockOptions>;
 
-  const apparentClockRadius = size / 2 - padding;
+    const {
+      size,
+      face: { ticks: ticksOptions, counts: countsOptions, padding, background },
+      interface: interfaceOptions,
+    } = normalizedOptions;
 
-  const [date, setDate] = useState(time ? time : new Date());
-  useEffect(() => {
-    setDate(time ?? new Date());
-    if (time) return;
-    const handleVisibilityChange = () => {
-      console.log("Visibility change");
-      if (document.hidden) return;
-      console.log("Clock updated");
-      setDate(new Date());
-    };
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
-  }, [time]);
+    const apparentClockRadius = size / 2 - padding;
 
-  return (
-    <div
-      {...props}
-      className={`--custom-analog-clock-react ${props.className}`}
-      style={
-        {
-          "--clock-size": `${size}px`,
-          "--clock-background": background,
-          ...(props.style ?? {}),
-        } as React.CSSProperties
-      }
-    >
-      {children ? children : null}
-      {normalizedOptions.face.show && (
-        <PerimeterPlacer
-          ticks={ticksOptions}
-          apparentClockRadius={apparentClockRadius}
-          counts={countsOptions}
-        />
-      )}
-      {interfaceOptions.show && (
-        <ClockInterface clockInterface={interfaceOptions} time={date} />
-      )}
-    </div>
-  );
-};
+    const [date, setDate] = useState(time ? time : new Date());
+    useEffect(() => {
+      setDate(time ?? new Date());
+      if (time) return;
+      const handleVisibilityChange = () => {
+        console.log("Visibility change");
+        if (document.hidden) return;
+        console.log("Clock updated");
+        setDate(new Date());
+      };
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+      return () => {
+        document.removeEventListener(
+          "visibilitychange",
+          handleVisibilityChange
+        );
+      };
+    }, [time]);
+
+    return (
+      <div
+        {...props}
+        ref={ref}
+        className={`--custom-analog-clock-react ${props.className}`}
+        style={
+          {
+            "--clock-size": `${size}px`,
+            "--clock-background": background,
+            ...(props.style ?? {}),
+          } as React.CSSProperties
+        }
+      >
+        {children ? children : null}
+        {normalizedOptions.face.show && (
+          <PerimeterPlacer
+            ticks={ticksOptions}
+            apparentClockRadius={apparentClockRadius}
+            counts={countsOptions}
+          />
+        )}
+        {interfaceOptions.show && (
+          <ClockInterface clockInterface={interfaceOptions} time={date} />
+        )}
+      </div>
+    );
+  }
+);
 
 export default Clock;
